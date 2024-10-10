@@ -7,7 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 @Component
 public class JwtTokenUtil {
-
-  private String SECRET_KEY = "c40aec4acbcab493c441be817c3c153fca2e94454be091b4f16837d88d8db33f"; // Khóa bí mật của bạn
-  private int EXPIRATION_TIME = 1000 * 60 * 60; // Thời gian hết hạn trong 1 giờ
+  @Value("${SECRET_KEY}")
+  private String SECRET_KEY ;
+  private int EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
   public String generateToken(String username, String role) {
     Map<String, Object> claims = new HashMap<>();
