@@ -41,9 +41,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     String username = null;
     String token = null;
 
+// permit all
     if (request.getRequestURI().startsWith("/api/home")) {
-      chain.doFilter(request, response); // Cho phép truy cập
-      return; // Kết thúc phương thức
+      chain.doFilter(request, response);
+      return;
     }
 
     // Kiểm tra tiêu đề Authorization có tồn tại không
@@ -65,10 +66,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken); // Lưu Authentication vào SecurityContext
       }
     }
-
     chain.doFilter(request, response); // Tiếp tục chuỗi filter
-
-//    chain.doFilter(request, response);
   }
 
 }

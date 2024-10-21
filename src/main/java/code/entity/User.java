@@ -1,22 +1,11 @@
 package code.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.List;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="users")
@@ -45,6 +34,9 @@ public class User {
   @Column(name = "role")
   private String role;
 
+  @Column(name = "status")
+  private int status;
+
   @Column(name = "created_at")
   @CreationTimestamp
   private LocalDateTime created_at;
@@ -52,4 +44,7 @@ public class User {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private LocalDateTime updated_at;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Address> addresses;
 }

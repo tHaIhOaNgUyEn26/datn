@@ -3,7 +3,7 @@ package code.controller.home;
 import code.entity.User;
 import code.model.request.RegisterRequest;
 import code.security.JwtTokenUtil;
-import code.service.UserService;
+import code.service.customer.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
