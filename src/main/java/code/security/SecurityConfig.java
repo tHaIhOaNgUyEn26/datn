@@ -10,7 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class SecurityConfig {
 
@@ -26,6 +28,7 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf(csrf -> csrf.disable()) // Vô hiệu hóa CSRF (không cần cho API)
+        .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Kích hoạt CORS với cấu hình riêng
         .authorizeHttpRequests(authz -> authz
             .requestMatchers("/api/auth/**","api/home/**").permitAll() // Cho phép truy cập công khai tới các API xác thực (login, register, v.v.)
             .requestMatchers("/api/admin/**").hasRole("admin") // Chỉ admin có thể truy cập
@@ -52,5 +55,19 @@ public class SecurityConfig {
   public AuthenticationManager authenticationManager(
       AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  // Cấu hình CORS cho toàn bộ ứng dụng
+  @Bean
+  public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    config.addAllowedOrigin("http://127.0.0.1:5500"); // Cho phép origin (client frontend)
+    config.addAllowedMethod("*"); // Cho phép tất cả các phương thức HTTP (GET, POST, PUT, DELETE, v.v.)
+    config.addAllowedHeader("*"); // Cho phép tất cả các header
+    config.setAllowCredentials(true); // Cho phép gửi thông tin xác thực (cookies, authorization headers, v.v.)
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config); // Cấu hình CORS cho tất cả các endpoint
+    return source;
   }
 }
