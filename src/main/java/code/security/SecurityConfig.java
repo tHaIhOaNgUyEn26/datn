@@ -61,7 +61,7 @@ public class SecurityConfig {
   @Bean
   public UrlBasedCorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.addAllowedOrigin("http://127.0.0.1:5500"); // Cho phép origin (client frontend)
+    config.addAllowedOrigin(" https://localhost:3000"); // Cho phép origin (client frontend)
     config.addAllowedMethod("*"); // Cho phép tất cả các phương thức HTTP (GET, POST, PUT, DELETE, v.v.)
     config.addAllowedHeader("*"); // Cho phép tất cả các header
     config.setAllowCredentials(true); // Cho phép gửi thông tin xác thực (cookies, authorization headers, v.v.)
